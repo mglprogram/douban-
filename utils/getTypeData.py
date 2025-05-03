@@ -2,6 +2,7 @@ from .utils import *
 
 
 def getTypeData():
+    # 获取所有类型列表
     typesList = typeList('types')
     typesObj = {}
     for i in typesList:
@@ -12,7 +13,7 @@ def getTypeData():
     typesData = []
     for key, item in typesObj.items():
         typesData.append({
-            "name": key,
-            "value": item
+            "name": key, # 类型名称
+            "value": item # 出现次数
         })
     return typesData

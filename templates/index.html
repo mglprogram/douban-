@@ -22,6 +22,33 @@
     <link href="/static/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
 </head>
+<style>
+                                            a {
+                                                text-decoration: none;
+                                            }
+
+                                            .movie_action {
+                                                position: absolute;
+                                                z-index: 2;
+                                                left: 50%;
+                                                top: 50%;
+                                                width: 30%;
+                                                transform: translate(-50%, -50%);
+                                            }
+
+                                            .bg {
+                                                position: absolute;
+                                                width: 100%;
+                                                height: 100%;
+                                                left: 0;
+                                                top: 0%;
+                                                background: rgba(0, 0, 0, .2);
+                                            }
+
+                                            .nav-item:hover .dropdown-menu {
+                                                display: block;
+                                            }
+                                        </style>
 
 <body id="page-top">
 
@@ -304,7 +331,8 @@
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">电影种类数</div>
+                                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">电影类型数
+                                        </div>
                                         <div class="row no-gutters align-items-center">
                                             <div class="col-auto">
                                                 <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ maxTypes }}
@@ -337,7 +365,20 @@
                 <div class="row">
 
                     <!-- Pie Chart -->
-                    <div class="col-xl-12 col-lg-12">
+                    <div class="col-xl-6 col-lg-6">
+                        <div id='main' class="card shadow mb-4">
+                            <!-- Card Header - Dropdown -->
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">电影类型饼图</h6>
+                            </div>
+                            <!-- Card Body -->
+                            <div class="card-body">
+                                <div id="pieChart" style="width: 100%;height: 450px"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--折线图-->
+                    <div class="col-xl-6 col-lg-6">
                         <div class="card shadow mb-4">
                             <!-- Card Header - Dropdown -->
                             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -345,7 +386,7 @@
                             </div>
                             <!-- Card Body -->
                             <div class="card-body">
-                                <div id="mains" style="width: 100%;height: 450px"></div>
+                                <div id="lineChart" style="width: 100%;height: 450px"></div>
                             </div>
                         </div>
                     </div>
@@ -379,14 +420,17 @@
                                 </tr>
                                 </thead>
                                 <tbody>
+                                <!-- Jinja2循环 -->
                                 {% for item in tableData %}
-                                    <tr style="font-size: 15px">
-                                        <td>{{ item[0] + 1 }}</td>
+                                    <tr style="font-size: 14px">
+                                        <td>{{ item[0] }}</td> <!-- ID列（索引） -->
                                         <td style="text-decoration: underline">
+                                            <!-- 电影名链接 -->
                                             <a style="color: #000;cursor: pointer" href="/search/{{ item[2] }}">
                                                 {{ item[2] }}
                                             </a>
                                         </td>
+                                    <!-- 图片列 -->
                                         <td style="text-align: center;width: 150px">
                                             <a target="_blank" href="{{ item[6] }}">
                                                 <img style="width: 75%;object-fit: cover;height: 150px;"
@@ -402,59 +446,23 @@
                                         <td>{{ item[8] }}</td>
                                         <td>{{ item[9] }}</td>
                                         <td>{{ item[13] }} 个</td>
-                                        <style>
-                                            a {
-                                                text-decoration: none;
-                                            }
 
-                                            .movie_action {
-                                                position: absolute;
-                                                z-index: 2;
-                                                left: 50%;
-                                                top: 50%;
-                                                width: 30%;
-                                                transform: translate(-50%, -50%);
-                                            }
-
-                                            .bg {
-                                                position: absolute;
-                                                width: 100%;
-                                                height: 100%;
-                                                left: 0;
-                                                top: 0%;
-                                                background: rgba(0, 0, 0, .2);
-                                            }
-
-                                            .nav-item:hover .dropdown-menu {
-                                                display: block;
-                                            }
-                                        </style>
-                                        {#                                        <td style="width: 175px;position:relative;">#}
-                                        {#                                            {% if item[18] == '无预告片' %}#}
-                                        {#                                                <img style="width: 100%;object-fit: cover;height: 150px"#}
-                                        {#                                                     src="{{ item[17][0] }}" alt="">#}
-                                        {#                                            {% else %}#}
-                                        {#                                                <a target="_blank" href="/movie/{{ item[2] }}">#}
-                                        {#                                                    <div class="bg"></div>#}
-                                        {#                                                </a>#}
-                                        {#                                                <a target="_blank" href="/movie/{{ item[2] }}">#}
-                                        {#                                                    <img class="movie_action" src="/static/img/action.jpg">#}
-                                        {#                                                </a>#}
-                                        {#                                                <img style="width: 100%;object-fit: cover;height: 150px"#}
-                                        {#                                                     src="{{ item[17][0] }}" alt="">#}
-                                        {#                                            {% endif %}#}
-                                        {#                                        </td>#}
+                                        <!-- 预告片列(特殊处理) -->
                                         <td style="width: 175px;position:relative;">
                                             {% if item[18] == '无预告片' %}
+                                                <!-- 无预告片时显示静态图 -->
                                                 <img style="width: 100%;object-fit: cover;height: 150px"
                                                      src="{{ item[17][0] }}" alt="">
                                             {% else %}
+                                                <!-- 有预告片时显示可点击元素 -->
                                                 <a target="_blank" href="{{ item[18] }}">
                                                     <div class="bg"></div>
                                                 </a>
                                                 <a target="_blank" href="{{ item[18] }}">
+                                                <!-- 播放按钮 -->
                                                     <img class="movie_action" src="/static/img/action.jpg">
                                                 </a>
+                                                <!-- 预告片封面 -->
                                                 <img style="width: 100%;object-fit: cover;height: 150px"
                                                      src="{{ item[19] }}" alt="">
                                             {% endif %}
@@ -535,11 +543,48 @@
 <script src="../static/js/demo/datatables-demo.js"></script>
 <script src="../static/js/echarts.js"></script>
 <script>
-    var chartDom = document.getElementById('mains');
+    var chartDom = document.getElementById('pieChart');
     var myChart = echarts.init(chartDom);
     var option;
 
     option = {
+        title: {
+            text: '电影类型饼图',
+            subtext: '数据来源types',
+            left: 'center'
+        },
+        tooltip: {
+            trigger: 'item'
+        },
+        legend: {
+            orient: 'vertical',
+            left: 'left'
+        },
+        series: [
+            {
+                name: 'Access From',
+                type: 'pie',
+                radius: '50%',
+                data: {{typeEchartsData | tojson}},
+                emphasis: {
+                    itemStyle: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }
+            }
+        ]
+    };
+
+    option && myChart.setOption(option);
+</script>
+<script>
+    var chartDoms = document.getElementById('lineChart');
+    var myCharts = echarts.init(chartDoms);
+    var options;
+
+    options = {
         title: {
             text: '电影评分折线图',
             subtext: '数据来源于Rate',
@@ -579,7 +624,7 @@
         ]
     };
 
-    option && myChart.setOption(option);
+    options && myCharts.setOption(options);
 </script>
 </body>
 

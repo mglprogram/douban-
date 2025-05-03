@@ -257,41 +257,40 @@
                         </button>
                     </form>
                 </div>
-                {% for item in resultData %}
-                    <div class="card" style="width: 100%;margin-bottom: 20px">
-                        <div style="margin-left: 15px;margin-top: 15px">
-                            {% for imgSrc in item[17] %}
-                                <img src="{{ imgSrc }}" class="rounded" alt="">
+                {% for item in resultData %}  <!-- 遍历搜索结果列表 -->
+                    <div class="card" style="width: 100%; margin-bottom: 20px">
+
+                        <!-- 图片展示区 -->
+                        <div style="margin-left: 15px; margin-top: 15px">
+                            {% for imgSrc in item[17] %}  <!-- 遍历图片列表（假设item[17]是图片URL数组） -->
+                                <img src="{{ imgSrc }}" class="rounded" alt="">  <!-- 显示单张图片 -->
                             {% endfor %}
                         </div>
+
+                        <!-- 卡片内容区 -->
                         <div class="card-body">
+                            <!-- 标题行 -->
                             <h5 class="card-title">
-                                <span class="text-primary fw-bold">
-                                    {{ item[2] }}
-                                </span>
-                                <span class="text-danger">
-                                    {{ item[3] }}分
-                                </span>
-                                <span class="text-success">
-                                    {{ item[7] }}年
-                                </span>
+                                <span class="text-primary fw-bold">{{ item[2] }}</span>  <!-- 电影名 -->
+                                <span class="text-danger">{{ item[3] }}分</span>  <!-- 评分 -->
+                                <span class="text-success">{{ item[7] }}年</span>  <!-- 年份 -->
                             </h5>
-                            <p class="card-text">
-                                简介：{{ item[15] }}
-                            </p>
+
+                            <!-- 电影简介 -->
+                            <p class="card-text">简介：{{ item[15] }}</p>  <!-- 假设item[15]是简介 -->
+
+                            <!-- 同类电影推荐 -->
                             <div class="card-text" style="text-align: center;">
                                 <p>同类电影：</p>
+                                <!-- 同类电影链接 -->
                                 <a target="_blank" href="{{ item[22] }}">
-                                    <img src="{{ item[21] }}" alt="" style=" width: 12%;height: auto;" />
+                                    <!-- 同类电影封面 -->
+                                    <img src="{{ item[21] }}" alt="" style="width: 12%; height: auto;"/>
                                 </a>
-                                <h5 style=" text-align: center;margin-top: 5px;">{{ item[20] }}</h5>
+                                <!-- 同类电影名 -->
+                                <h5 style="text-align: center; margin-top: 5px;">{{ item[20] }}</h5>
                             </div>
                         </div>
-                        {#                        <div style="margin-left: 15px;margin-top: 15px">#}
-                        {#                            {% for movieImgSrc in item[20] %}#}
-                        {#                                <img src="{{ movieImgSrc }}" class="rounded" alt="">#}
-                        {#                             {% endfor %}#}
-                        {#                        </div>#}
                     </div>
                 {% endfor %}
             </div>

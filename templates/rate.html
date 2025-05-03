@@ -246,16 +246,23 @@
                     <div class="card mb-4">
                         <div class="card-body" style="align-items: center">
                             <div class="btn-group" role="group" aria-label="Basic example">
+                                <!-- 全部类型按钮 -->
                                 {% if type == 'all' %}
+                                    <!-- 当前已选中"全部"时，添加active类高亮 -->
                                     <a href="all" class="btn btn-secondary active">全部</a>
                                 {% else %}
-                                    <a href="all" class="btn btn-secondary ">全部</a>
+                                    <!-- 未选中状态 -->
+                                    <a href="all" class="btn btn-secondary">全部</a>
                                 {% endif %}
+
+                                <!-- 遍历所有电影类型 -->
                                 {% for i in typeList %}
                                     {% if type == i %}
-                                        <a href="{{ i }}" class="active btn btn-secondary ">{{ i }}</a>
+                                        <!-- 当前选中的类型，添加active类高亮 -->
+                                        <a href="{{ i }}" class="active btn btn-secondary">{{ i }}</a>
                                     {% else %}
-                                        <a href="{{ i }}" class="btn btn-secondary ">{{ i }}</a>
+                                        <!-- 未选中的类型 -->
+                                        <a href="{{ i }}" class="btn btn-secondary">{{ i }}</a>
                                     {% endif %}
                                 {% endfor %}
                             </div>

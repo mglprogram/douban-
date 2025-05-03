@@ -356,7 +356,7 @@
 
     option = {
         title: {
-            text: '电影拍摄地点折线图'
+            text: '电影拍摄地点柱状图'
         },
         tooltip: {
             trigger: 'axis',
@@ -402,15 +402,15 @@
             }
         ],
         polar: {
-            radius: [25, '80%']
+            radius: [20, '80%']
         },
         radiusAxis: {
-            max: 60
+            max: 50
         },
         angleAxis: {
             type: 'category',
-            data: {{ langRow | tojson }},
-            startAngle: 75
+            data: {{ langRows | tojson }},
+            startAngle: 40,
         },
         tooltip: {},
         series: {

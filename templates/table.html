@@ -22,7 +22,33 @@
     <link href="/static/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
 </head>
+<style>
+                                            a {
+                                                text-decoration: none;
+                                            }
 
+                                            .movie_action {
+                                                position: absolute;
+                                                z-index: 2;
+                                                left: 50%;
+                                                top: 50%;
+                                                width: 30%;
+                                                transform: translate(-50%, -50%);
+                                            }
+
+                                            .bg {
+                                                position: absolute;
+                                                width: 100%;
+                                                height: 100%;
+                                                left: 0;
+                                                top: 0;
+                                                background: rgba(0, 0, 0, .2);
+                                            }
+
+                                            .nav-item:hover .dropdown-menu {
+                                                display: block;
+                                            }
+                                        </style>
 <body id="page-top">
 
 <!-- Page Wrapper -->
@@ -256,25 +282,25 @@
                                 <thead>
                                 <tr>
                                     <td>ID</td>
-                                    <td>电影名</td>
-                                    <td>图片</td>
+                                    <td data-orderable="false">电影名</td>
+                                    <td data-orderable="false">图片</td>
                                     <td>评分</td>
-                                    <td>导演</td>
-                                    <td>演员</td>
-                                    <td>语言</td>
-                                    <td>片长</td>
-                                    <td>上映时间</td>
-                                    <td>电影类型</td>
-                                    <td>制片国家</td>
-                                    <td>短评个数</td>
-                                    <td>预告片</td>
-                                    <td>操作</td>
+                                    <td data-orderable="false">导演</td>
+                                    <td data-orderable="false">演员</td>
+                                    <td data-orderable="false">语言</td>
+                                    <td data-orderable="false">片长</td>
+                                    <td data-orderable="false">上映时间</td>
+                                    <td data-orderable="false">电影类型</td>
+                                    <td data-orderable="false">制片国家</td>
+                                    <td data-orderable="false">短评个数</td>
+                                    <td data-orderable="false">预告片</td>
+                                    <td data-orderable="false">操作</td>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {% for item in tableData %}
                                     <tr style="font-size: 15px">
-                                        <td>{{ item[0] + 1 }}</td>
+                                        <td>{{ loop.index }}</td> <!-- 使用Jinja2的loop.index -->
                                         <td style="text-decoration: underline">
                                             <a style="color: #000;cursor: pointer" href="/search/{{ item[2] }}">
                                                 {{ item[2] }}
@@ -295,33 +321,6 @@
                                         <td>{{ item[8] }}</td>
                                         <td>{{ item[9] }}</td>
                                         <td>{{ item[13] }} 个</td>
-                                        <style>
-                                            a {
-                                                text-decoration: none;
-                                            }
-
-                                            .movie_action {
-                                                position: absolute;
-                                                z-index: 2;
-                                                left: 50%;
-                                                top: 50%;
-                                                width: 30%;
-                                                transform: translate(-50%, -50%);
-                                            }
-
-                                            .bg {
-                                                position: absolute;
-                                                width: 100%;
-                                                height: 100%;
-                                                left: 0;
-                                                top: 0;
-                                                background: rgba(0, 0, 0, .2);
-                                            }
-
-                                            .nav-item:hover .dropdown-menu {
-                                                display: block;
-                                            }
-                                        </style>
                                         <td style="width: 175px;position:relative;">
                                             {% if item[18] == '无预告片' %}
                                                 <img style="width: 100%;object-fit: cover;height: 150px"
@@ -346,13 +345,13 @@
                                                           d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
                                                 </svg>
                                             </a>
-{#                                            <a href="/search/{{ item[2] }}">#}
-{#                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"#}
-{#                                                     fill="currentColor" class="bi bi-search-heart" viewBox="0 0 16 16">#}
-{#                                                    <path d="M6.5 4.482c1.664-1.673 5.825 1.254 0 5.018-5.825-3.764-1.664-6.69 0-5.018Z"/>#}
-{#                                                    <path d="M13 6.5a6.471 6.471 0 0 1-1.258 3.844c.04.03.078.062.115.098l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1.007 1.007 0 0 1-.1-.115h.002A6.5 6.5 0 1 1 13 6.5ZM6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11Z"/>#}
-{#                                                </svg>#}
-{#                                            </a>#}
+                                            <a href="/search/{{ item[2] }}">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                     fill="currentColor" class="bi bi-search-heart" viewBox="0 0 16 16">
+                                                    <path d="M6.5 4.482c1.664-1.673 5.825 1.254 0 5.018-5.825-3.764-1.664-6.69 0-5.018Z"/>
+                                                    <path d="M13 6.5a6.471 6.471 0 0 1-1.258 3.844c.04.03.078.062.115.098l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1.007 1.007 0 0 1-.1-.115h.002A6.5 6.5 0 1 1 13 6.5ZM6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11Z"/>
+                                                </svg>
+                                            </a>
 
                                         </td>
                                     </tr>
