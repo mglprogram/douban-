@@ -381,7 +381,7 @@
         },
         series: [
             {
-                name: '2024',
+                name: '数量',
                 type: 'bar',
                 data: {{ columns }}
             }
@@ -405,12 +405,12 @@
             radius: [20, '80%']
         },
         radiusAxis: {
-            max: 50
+            max: 150
         },
         angleAxis: {
             type: 'category',
             data: {{ langRows | tojson }},
-            startAngle: 40,
+            startAngle: 50,
         },
         tooltip: {},
         series: {
